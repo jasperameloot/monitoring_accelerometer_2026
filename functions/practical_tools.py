@@ -213,13 +213,21 @@ def check_grid_search(search, param_grid: dict | None = None) -> None:
     n_candidates = len(search.cv_results_["params"])
     checks.append((n_candidates > 1, f"The grid contains {n_candidates} combinations of settings."))
 
+    # Smallest possible value of some settings: a best value there cannot be extended downwards
+    smallest_possible = {"min_samples_leaf": 1, "max_depth": 1, "min_samples_split": 2, "n_estimators": 1}
+
     grid = param_grid if param_grid is not None else getattr(search, "param_grid", {})
     if isinstance(grid, dict):
         for parameter, values in grid.items():
             values = list(values)
             numeric = [v for v in values if isinstance(v, (int, float)) and not isinstance(v, bool)]
             best_value = search.best_params_.get(parameter)
-            if len(numeric) >= 3 and best_value in numeric and best_value in (min(numeric), max(numeric)):
+            setting_name = parameter.split("__")[-1]
+            if best_value is not None and best_value == smallest_possible.get(setting_name):
+                checks.append((True,
+                               f"The best `{parameter}` ({best_value}) is the smallest possible value, "
+                               "so the grid cannot be extended further in that direction."))
+            elif len(numeric) >= 3 and best_value in numeric and best_value in (min(numeric), max(numeric)):
                 checks.append((False,
                                f"The best `{parameter}` ({best_value}) is at the edge of your grid {values}. "
                                "Extend the grid in that direction: the optimum may lie outside it."))

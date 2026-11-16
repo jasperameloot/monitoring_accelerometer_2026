@@ -1,6 +1,6 @@
 # Practical: Cow behaviour classification
 
-In this practical you use accelerometer and pressure data of dairy cows (RumiWatch sensor) to train **Random Forest** and **XGBoost** models that predict the cow's behaviour (other activity, rumination, ingestive behaviour). You learn how to build features from raw sensor data, how to recognise and avoid data leakage and overfitting (cross-validation by cow, validation curves, tuning grids), and how to choose a threshold with ROC and precision-recall curves. You train on two cows, save a complete model that turns raw sensor data into behaviours, and test it once on a third cow that the model has never seen.
+In this practical you use accelerometer and pressure data of dairy cows (RumiWatch sensor) to train a **Random Forest** model that predicts the cow's behaviour (other activity, rumination, ingestive behaviour). You learn how to build features from raw sensor data, how to recognise and avoid data leakage and overfitting (cross-validation by cow, validation curves, tuning grids), and how to choose a threshold with ROC and precision-recall curves. You train on two cows, save a complete model that turns raw sensor data into behaviours, and test it once on a third cow that the model has never seen.
 
 ![RumiWatch sensor and pressure signal](docs/rumiwatch.gif)
 
